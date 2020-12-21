@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Design</title>
+    <link rel="stylesheet" th:href="@{/style.css}" />
+</head>
+<body>
+    <form method="post" th:object="${design}">
+        <div class="wrap">
+            <h3>Design your wrap</h3>
+            <div th:each="ingredient : ${wrap}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}" />
+                <span th:text="${ingredient.name}">INGREDIENT</span>
+                <br/>
+            </div>
+        </div>
+
+        <div class="protein">
+            <h3>Design your protein</h3>
+            <div th:each="ingredient : ${protein}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}" />
+                <span th:text="${ingredient.name}">INGREDIENT</span>
+                <br/>
+            </div>
+        </div>
+
+        <button>Submit</button>
+    </form>
+</body>
+</html>

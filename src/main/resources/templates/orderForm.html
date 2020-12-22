@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+</head>
+<body>
+    <form method="post" th:action="@{/orders}" th:object="${order}">
+        <a th:href="@{/design}">Design another</a>
+        <br/>
+
+        <div th:if="${#fields.hasErrors()}">
+            <span>Pls correct the problems below end resubmit</span>
+        </div>
+
+        <label for="name">Name:</label>
+        <input type="text" th:field="*{name}" />
+        <br/>
+
+        <label for="zip">Zip:</label>
+        <input type="text" th:field="*{zip}" />
+        <br/>
+
+        <input type="submit" value="Submit Order" />
+    </form>
+</body>
+</html>

@@ -27,6 +27,7 @@
 
         <h3>Name</h3>
         <input type="text" th:field="*{name}" />
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
 
         <button>Submit</button>
     </form>

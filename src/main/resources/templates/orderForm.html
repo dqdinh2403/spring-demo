@@ -15,10 +15,12 @@
 
         <label for="name">Name:</label>
         <input type="text" id="name" th:field="*{name}" />
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
         <br/>
 
         <label for="zip">Zip:</label>
         <input type="text" id="zip" th:field="*{zip}" />
+        <span th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}">Zip Error</span>
         <br/>
 
         <input type="submit" value="Submit Order" />

@@ -2,7 +2,9 @@ package com.example.springdemo.controller;
 
 import com.example.springdemo.domain.Design;
 import com.example.springdemo.domain.Ingredient;
+import com.example.springdemo.service.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -11,21 +13,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
 @RequestMapping("/design")
 public class DesignController {
 
+    private IngredientRepository ingredientRepository;
+
+    @Autowired
+    public DesignController(IngredientRepository ingredientRepository){
+        this.ingredientRepository = ingredientRepository;
+    }
+
     @GetMapping
     public String showDesignForm(Model model){
-        Ingredient wrap1 = new Ingredient("WRAP1", "wrap1 name", Ingredient.Type.WRAP);
-        Ingredient wrap2 = new Ingredient("WRAP2", "wrap2 name", Ingredient.Type.WRAP);
-        Ingredient protein1 = new Ingredient("PRO1", "protein1 name", Ingredient.Type.PROTEIN);
-        Ingredient protein2 = new Ingredient("PRO2", "protein2 name", Ingredient.Type.PROTEIN);
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepository.findAll().forEach(i -> ingredients.add(i));
 
-        model.addAttribute(Ingredient.Type.WRAP.toString().toLowerCase(), new Ingredient[] {wrap1, wrap2});
-        model.addAttribute(Ingredient.Type.PROTEIN.toString().toLowerCase(), new Ingredient[] {protein1, protein2});
+        Ingredient.Type[] types = Ingredient.Type.values();
+        for(Ingredient.Type type : types){
+            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
+        }
+
         model.addAttribute("design", new Design());
 
         return "design";
@@ -41,6 +54,10 @@ public class DesignController {
         log.info("Processing design: " + design);
 
         return "redirect:/orders/current";
+    }
+
+    private List<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type) {
+        return ingredients.stream().filter(each -> each.getType() == type).collect(Collectors.toList());
     }
 
 }

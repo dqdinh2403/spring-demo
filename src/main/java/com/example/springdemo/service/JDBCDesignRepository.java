@@ -43,7 +43,7 @@ public class JDBCDesignRepository implements DesignRepository {
     }
 
     private void saveIngredientToDesign(Ingredient ingredient, long designId){
-        jdbc.update("insert into Design_Ingredients(design,ingredient) values(?,?)",
+        jdbc.update("insert into Design_Ingredients(design, ingredient) values(?,?)",
                 designId, ingredient.getId());
     }
 

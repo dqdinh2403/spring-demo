@@ -55,7 +55,6 @@ public class DesignController {
         }
 
         model.addAttribute("design", new Design());
-
         return "design";
     }
 

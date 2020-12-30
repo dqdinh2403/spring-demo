@@ -54,7 +54,6 @@ public class DesignController {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
 
-        model.addAttribute("design", new Design());
         return "design";
     }
 

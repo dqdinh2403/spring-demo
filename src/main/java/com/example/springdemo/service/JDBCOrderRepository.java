@@ -15,17 +15,17 @@ import java.util.Map;
 @Repository
 public class JDBCOrderRepository implements OrderRepository {
 
-    private SimpleJdbcInsert orderInseter;
-    private SimpleJdbcInsert orderDesignInseter;
+    private SimpleJdbcInsert orderInserter;
+    private SimpleJdbcInsert orderDesignInserter;
     private ObjectMapper objectMapper;
 
     @Autowired
     public JDBCOrderRepository(JdbcTemplate jdbc){
-        this.orderInseter = new SimpleJdbcInsert(jdbc)
+        this.orderInserter = new SimpleJdbcInsert(jdbc)
                 .withTableName("TOrder")
                 .usingGeneratedKeyColumns("id");
 
-        this.orderDesignInseter = new SimpleJdbcInsert(jdbc)
+        this.orderDesignInserter = new SimpleJdbcInsert(jdbc)
                 .withTableName("TOrder_Designs");
 
         this.objectMapper = new ObjectMapper();
@@ -44,7 +44,7 @@ public class JDBCOrderRepository implements OrderRepository {
 
     private long saveOrderDetails(Order order){
         Map<String, Object> values = objectMapper.convertValue(order, Map.class);
-        long orderId = orderInseter.executeAndReturnKey(values).longValue();
+        long orderId = orderInserter.executeAndReturnKey(values).longValue();
 
         return orderId;
     }
@@ -53,7 +53,7 @@ public class JDBCOrderRepository implements OrderRepository {
         Map<String, Object> values = new HashMap<>();
         values.put("Torder", orderId);
         values.put("design", design.getId());
-        orderDesignInseter.execute(values);
+        orderDesignInserter.execute(values);
     }
 
 }

@@ -5,6 +5,7 @@ import com.example.springdemo.domain.Ingredient;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -25,15 +26,15 @@ public class JDBCDesignRepository implements DesignRepository {
     public Design save(Design design) {
         long designId = saveDesignInfo(design);
         design.setId(designId);
-        for(Ingredient ingredient : design.getIngredients()){
-            saveIngredientToDesign(ingredient, designId);
+        for(String ingredientId : design.getIngredients()){
+            saveIngredientToDesign(ingredientId, designId);
         }
 
         return design;
     }
 
     private long saveDesignInfo(Design design){
-        PreparedStatementCreator psc = new PreparedStatementCreatorFactory("insert into Design(name) value (?)", Types.VARCHAR)
+        PreparedStatementCreator psc = new PreparedStatementCreatorFactory("insert into Design(name) values (?)", Types.VARCHAR)
                 .newPreparedStatementCreator(Arrays.asList(design.getName()));
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -42,9 +43,9 @@ public class JDBCDesignRepository implements DesignRepository {
         return keyHolder.getKey().longValue();
     }
 
-    private void saveIngredientToDesign(Ingredient ingredient, long designId){
+    private void saveIngredientToDesign(String ingredientId, long designId){
         jdbc.update("insert into Design_Ingredients(design, ingredient) values(?,?)",
-                designId, ingredient.getId());
+                designId, ingredientId);
     }
 
 }

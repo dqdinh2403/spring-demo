@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -30,7 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // JDBC-based user store
         auth.jdbcAuthentication()
-                .dataSource(dataSource);
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username, password, enabled from Users where username = ?")
+                .authoritiesByUsernameQuery("select username, authority from UserAuthorities where username = ?")
+                .passwordEncoder(new StandardPasswordEncoder("secretKey"));
 
     }
 

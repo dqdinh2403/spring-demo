@@ -1,16 +1,15 @@
 package com.example.springdemo;
 
+import com.example.springdemo.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -20,15 +19,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    @Autowired
 //    DataSource dataSource;
 
+    // Customizing user authentication
+//    @Autowired
+//    private UserDetailsService userDetailsService;
+
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         // In-memory user store
-//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//        auth.inMemoryAuthentication()
-//                .withUser("qoobee")
-//                .password(encoder.encode("qoobee"))
-//                .authorities("ROLE_USER");
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        auth.inMemoryAuthentication()
+                .withUser("qoobee")
+                .password(encoder.encode("qoobee"))
+                .authorities("ROLE_USER");
 
         // JDBC-based user store
 //        auth.jdbcAuthentication()
@@ -47,8 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .passwordEncoder(new BCryptPasswordEncoder())
 //                .passwordAttribute("passcode");
 
-
-
+        // Customizing user authentication
+//        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
+
+//    @Bean
+//    public PasswordEncoder encoder(){
+//        return new StandardPasswordEncoder("secretKey");
+//    }
 
 }

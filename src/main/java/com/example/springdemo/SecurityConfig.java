@@ -61,21 +61,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        return new StandardPasswordEncoder("secretKey");
 //    }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/design", "/orders")
-                    .hasRole("USER")
-                .antMatchers("/", "/**")
-                    .permitAll()
-                .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                    .defaultSuccessUrl("/design");
-    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/design", "/orders")
+//                    .hasRole("USER")
+//                .antMatchers("/", "/**")
+//                    .permitAll()
+//                .and()
+//                    .formLogin()
+//                    .loginPage("/login")
+//                    .loginProcessingUrl("/login")
+//                    .usernameParameter("username")
+//                    .passwordParameter("password")
+//                    .defaultSuccessUrl("/design")
+//                .and()
+//                    .logout()
+//                    .logoutSuccessUrl("/")
+//                ;
+//    }
 
 
 }

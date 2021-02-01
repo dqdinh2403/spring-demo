@@ -29,7 +29,16 @@
         <input type="text" th:field="*{name}" />
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
 
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
         <button>Submit</button>
     </form>
+
+    <br /><hr /><br />
+
+    <form method="post" th:action="@{/logout}">
+        <input type="submit" value="Logout" />
+    </form>
+
 </body>
 </html>

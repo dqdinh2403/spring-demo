@@ -23,6 +23,8 @@
         <span th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}">Zip Error</span>
         <br/>
 
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
         <input type="submit" value="Submit Order" />
     </form>
 </body>

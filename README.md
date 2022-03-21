@@ -1,5 +1,5 @@
 # spring-demo
-## This is my demo project using spring framework
+## Project for learn and demo using Spring framework.
 
 ##### Project: Maven
 ##### Language: Java 8
